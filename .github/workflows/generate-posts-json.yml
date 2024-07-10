@@ -9,6 +9,8 @@ on:
 jobs:
   generate-json:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v2
 
@@ -28,7 +30,9 @@ jobs:
 
     - name: Commit and push if changed
       run: |
-        git config --global user.email "action@github.com"
-        git config --global user.name "GitHub Action"
+        git config --global user.name 'GitHub Action'
+        git config --global user.email 'action@github.com'
         git add posts.json
         git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update posts.json" && git push)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

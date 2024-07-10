@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sriram Vasudevan</title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="content">
-        <div class="theme-toggle" id="theme-toggle"></div>
-        
         <h1>Hi, there 👋</h1>
         
         <p>I'm <b>Sriram</b>, and am based in Chennai. Welcome to my home on the interweb!</p>
@@ -21,10 +18,10 @@
 
         <h2>Work</h2>
         <div class="work-item">
-            <span class="work"><a href="https://x.com/SocketProtocol">Socket</a></span> — lead marketing and comms to help spread the chain abstraction gospel.
+            <a href="https://x.com/SocketProtocol">Socket</a> — lead marketing and comms to help spread the chain abstraction gospel.
         </div>
         <div class="work-item">
-            <span class="work"><a href="https://x.com/BungeeExchange">Bungee</a></span> — shitposting and helping grow Bungee into the #1 bridge for DeFi
+            <a href="https://x.com/BungeeExchange">Bungee</a> — shitposting and helping grow Bungee into the #1 bridge for DeFi
         </div>
         <p>In my past life I was contributing at <a href="https://indexcoop.com/">IndexCoop</a>, <a href="https://superteam.fun/">SuperTeam</a> and several education NGOs.</p>
 
@@ -35,29 +32,11 @@
     </div>
 
     <script>
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        function setTheme(isDark) {
-            body.classList.toggle('light', !isDark);
-            themeToggle.classList.toggle('light', !isDark);
-        }
-
-        const savedTheme = localStorage.getItem('theme');
-        setTheme(savedTheme !== 'light');
-
-        themeToggle.addEventListener('click', () => {
-            const isDark = !body.classList.contains('light');
-            setTheme(!isDark);
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
-        });
-
-        // Function to format date as "14 May 2024"
+        // Function to format date as "Month DD, YYYY"
         function formatDate(dateString) {
             const [day, month, year] = dateString.split('-');
             const date = new Date(year, month - 1, day);
-            return date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         }
 
         // Function to fetch and display blog posts

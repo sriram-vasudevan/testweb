@@ -4,27 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sriram Vasudevan</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="content">
+        <div class="theme-toggle" id="theme-toggle"></div>
+        
         <h1>Hi, there 👋</h1>
         
         <p>I'm <b>Sriram</b>, and am based in Chennai. Welcome to my home on the interweb!</p>
 
         <p>Professionally, am a startup operator helping out teams with marketing & strategy. The rest of my time, am traveling, nerding out on philosophy, or playing football with the gang.</p>
         
-        <p>Feel free to drop a hi on <a href="https://x.com/sriramvas">X/twt</a> if you want to chat :)</p>
+        <p>Feel free to drop a hi on <a href="https://x.com/sriramvas">X/twt</a> if you want to chat :)  </p>
 
         <h2>Work</h2>
+        
         <div class="work-item">
-            <a href="https://x.com/SocketProtocol">Socket</a> — lead marketing and comms to help spread the chain abstraction gospel.
+            <span class="work"><a href="https://x.com/SocketProtocol">Socket</a></span> — lead marketing and comms to help spread the chain abstraction gospel.
         </div>
+        
         <div class="work-item">
-            <a href="https://x.com/BungeeExchange">Bungee</a> — shitposting and helping grow Bungee into the #1 bridge for DeFi
+            <span class="work"><a href="https://x.com/BungeeExchange">Bungee</a></span> — shitposting and helping grow Bungee into the #1 bridge for DeFi
         </div>
+        
         <p>In my past life I was contributing at <a href="https://indexcoop.com/">IndexCoop</a>, <a href="https://superteam.fun/">SuperTeam</a> and several education NGOs.</p>
-
+        
         <h2>Posts</h2>
         <div id="posts">
             <!-- Blog posts will be dynamically inserted here -->
@@ -32,6 +38,23 @@
     </div>
 
     <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        function setTheme(isDark) {
+            body.classList.toggle('light', !isDark);
+            themeToggle.classList.toggle('light', !isDark);
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        setTheme(savedTheme !== 'light');
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = !body.classList.contains('light');
+            setTheme(!isDark);
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+
         // Function to format date as "Month DD, YYYY"
         function formatDate(dateString) {
             const [day, month, year] = dateString.split('-');
@@ -49,17 +72,21 @@
                 const posts = await response.json();
 
                 const postsContainer = document.getElementById('posts');
-                posts.forEach(post => {
-                    const formattedDate = formatDate(post.date);
-                    const link = document.createElement('a');
-                    link.href = `posts/${post.filename}`;
-                    link.className = 'post-link';
-                    link.textContent = `${formattedDate} ${post.title}`;
-                    postsContainer.appendChild(link);
-                });
+                if (posts.length === 0) {
+                    postsContainer.innerHTML = '<h3>[WIP]</h3>';
+                } else {
+                    posts.forEach(post => {
+                        const formattedDate = formatDate(post.date);
+                        const link = document.createElement('a');
+                        link.href = `posts/${post.filename}`;
+                        link.className = 'post-link';
+                        link.textContent = `${formattedDate} ${post.title}`;
+                        postsContainer.appendChild(link);
+                    });
+                }
             } catch (error) {
                 console.error('Error loading blog posts:', error);
-                document.getElementById('posts').textContent = 'Error loading blog posts. Please try again later.';
+                document.getElementById('posts').innerHTML = '<h3>[WIP]</h3>';
             }
         }
 
